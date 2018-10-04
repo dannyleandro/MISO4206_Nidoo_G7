@@ -10,6 +10,8 @@ class User(AbstractUser):
     is_oferente = models.BooleanField(default=False)
     identificacion = models.CharField(max_length=20)
     celular = models.CharField(max_length=20)
+    groups = models.CharField(max_length=255)
+    user_permissions = models.CharField(max_length=255)
 
 
 class Oferente(models.Model):
