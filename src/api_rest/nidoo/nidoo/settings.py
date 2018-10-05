@@ -75,19 +75,27 @@ WSGI_APPLICATION = 'nidoo.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'Nidoo',
+#         'USER': 'postgres',
+#         'PASSWORD': 'admin',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'Nidoo',
-        'USER': 'postgres',
-        'PASSWORD': 'admin',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'NAME': os.environ['NAME'],
+        'USER': os.environ['USER'],
+        'PASSWORD': os.environ['PASSWORD'],
+        'HOST': os.environ['HOST'],
+        'PORT': os.environ['PORT'],
     }
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    # }
 }
 
 AUTH_USER_MODEL = 'api.User'
