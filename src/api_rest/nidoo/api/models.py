@@ -11,6 +11,9 @@ class Usuario(AbstractUser):
     identificacion = models.CharField(max_length=20)
     celular = models.CharField(max_length=20)
 
+    def __str__(self):
+        return self.username
+
 
 class Oferente(models.Model):
     usuario = models.OneToOneField(Usuario, on_delete=models.CASCADE, primary_key=True)
@@ -40,21 +43,30 @@ TIME_TYPE = (
 
 class Direccion(models.Model):
     nombre_direccion = models.CharField(max_length=255)
-    complemento = models.CharField(max_length=255)
+    complemento = models.CharField(max_length=255, null=True)
 
 
 class Parqueadero(models.Model):
-    direccion = models.ForeignKey(Direccion, on_delete=models.CASCADE)
+    ParqueaderoId = models.AutoField(primary_key=True)
+    oferente = models.ForeignKey(Oferente)
+    direccion = models.ForeignKey(Direccion)
     tipoVehiculo = models.CharField(max_length=20, choices=VEHICLE_TYPE, default='C')
     tipoDisponibilidad = models.CharField(max_length=10, choices=TIME_TYPE, default='A')
     caracteristicas = models.CharField(max_length=255)
-    oferente = models.ForeignKey(Oferente, on_delete=models.CASCADE)
 
 
 class Vehiculo(models.Model):
-    cliente = models.ForeignKey(Oferente, on_delete=models.CASCADE)
+    vehiculoId = models.AutoField(primary_key=True)
+    cliente = models.ForeignKey(Cliente)
     tipo = models.CharField(max_length=20, choices=VEHICLE_TYPE, default='C')
-    placa = models.CharField(max_length=10),
-    marca = models.CharField(max_length=255),
-    modelo = models.CharField(max_length=255)
+    placa = models.CharField(max_length=10, null=True)
+    marca = models.CharField(max_length=255, null=True)
+    modelo = models.CharField(max_length=255, null=True)
     es_principal = models.BooleanField(default=False)
+
+
+class Reserva(models.Model):
+    Cliente = models.ForeignKey(Cliente)
+    Parqueadero = models.ForeignKey(Parqueadero)
+    Fecha = models.DateTimeField()
+    Vehiculo = models.ForeignKey(Vehiculo)
