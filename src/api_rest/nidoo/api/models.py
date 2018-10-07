@@ -53,6 +53,8 @@ class Parqueadero(models.Model):
     tipoVehiculo = models.CharField(max_length=20, choices=VEHICLE_TYPE, default='C')
     tipoDisponibilidad = models.CharField(max_length=10, choices=TIME_TYPE, default='A')
     caracteristicas = models.CharField(max_length=255)
+    longitud = models.FloatField(max_length=8)
+    latitud = models.FloatField(max_length=8)
 
 
 class Vehiculo(models.Model):

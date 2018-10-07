@@ -1,7 +1,5 @@
 {# Load the tag library #}
-
 {% load bootstrap3 %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,6 +15,7 @@
     <link href='https://fonts.googleapis.com/css?family=Satisfy' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <script src="http://maps.google.com/maps/api/js?key=AIzaSyBhJUP1KocRD_Rm4YoKG6M_EUX4oNbmQDI&callback=initMap"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
     <script>
         var map;
         function initialize()
@@ -24,12 +23,26 @@
             map = new google.maps.Map(document.getElementById('map'),
             {
                 zoom: 14,
-                center: new google.maps.LatLng(4.6591639,-74.100297),
+                center: new google.maps.LatLng(4.602908, -74.064908),
                 mapTypeId: google.maps.MapTypeId.ROADMAP
+            });
+
+            var image = '../../../static/images/marker.png';
+
+            $.getJSON("http://localhost:8000/parqueaderos").done(function (data) {
+                $.each( data, function( i, item ){
+                    var marker = new google.maps.Marker({
+                        position: new google.maps.LatLng(item.fields.longitud, item.fields.latitud),
+                        map: map,
+                        draggable: true,
+                        animation: google.maps.Animation.DROP,
+                        icon: image
+                    });
+                });
             });
         }
     </script>
-    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+
     <script>
         (function ()
         {
