@@ -25,7 +25,7 @@ SECRET_KEY = '4^)yo!!%4=_d+jb9w#&d=cjenhn==k6)&sax8sp$hm$#_4dp)7'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [u'*']
 
 
 # Application definition
@@ -90,11 +90,11 @@ WSGI_APPLICATION = 'nidoo.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ['NAME'],
-        'USER': os.environ['USER'],
-        'PASSWORD': os.environ['PASSWORD'],
-        'HOST': os.environ['HOST'],
-        'PORT': os.environ['PORT'],
+        'NAME': os.environ['NAMEDB'],
+        'USER': os.environ['USERDB'],
+        'PASSWORD': os.environ['PASSDB'],
+        'HOST': os.environ['HOSTDB'],
+        'PORT': os.environ['PORTDB'],
     }
 }
 
