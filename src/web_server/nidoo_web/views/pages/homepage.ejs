@@ -7,7 +7,7 @@ For more information, see:
 <script src="http://maps.google.com/maps/api/js?key=AIzaSyBhJUP1KocRD_Rm4YoKG6M_EUX4oNbmQDI&callback=initMap"></script>
 
 <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
-<!-- <script>
+<script>
         (function ()
         {
             $.getJSON("http://localhost:8000/isLogged").done(function (data)
@@ -47,12 +47,9 @@ For more information, see:
                 }
             });
         }
-    </script> -->
+    </script>
 
 <style>
-    body {
-        padding-top: 30px;
-    }
     #map {
         width: 1000px; height: 500px;
     }
@@ -69,8 +66,8 @@ For more information, see:
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand-nidoo navbar-brand" href="{% url 'api:index' %}">
-                <img src="static/images/logo.svg">
+            <a class="navbar-brand-nidoo navbar-brand" href="/">
+                <img src="images/logo.svg">
             </a>
         </div>
         <!-- Items -->
@@ -100,6 +97,20 @@ For more information, see:
                 zoom: 14,
                 center: new google.maps.LatLng(4.6591639,-74.100297),
                 mapTypeId: google.maps.MapTypeId.ROADMAP
+            });
+
+            var image = 'images/marker.png';
+
+            $.getJSON("http://18.224.204.50/nidoo/parqueaderos").done(function (data) {
+                $.each( data, function( i, item ){
+                    var marker = new google.maps.Marker({
+                        position: new google.maps.LatLng(item.fields.longitud, item.fields.latitud),
+                        map: map,
+                        draggable: true,
+                        animation: google.maps.Animation.DROP,
+                        icon: image
+                    });
+                });
             });
         }
         initialize();
