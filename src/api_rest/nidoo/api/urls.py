@@ -12,4 +12,8 @@ urlpatterns = [
     url(r'^parqueadero/(?P<parqueadero_id>\d+)$', views.get_parqueadero, name='parqueadero'),
     url(r'^parqueadero/(?P<parqueadero_id>\d+)/reservar$', views.reservar_parqueadero, name='reservar_parqueadero'),
     url(r'^parqueaderos/$', views.list_parqueaderos, name='parqueaderos'),
+    url(r'^parqueaderosDisponibles/$', views.list_parqueaderos_disponibles, name='parqueaderos_disp'),
+    url(r'^parqueadero/', views.add_parqueadero, name='agregar_parqueadero'),
+    url(r'^reservas/$', views.list_reservas, name='reservas'),
+
 ]

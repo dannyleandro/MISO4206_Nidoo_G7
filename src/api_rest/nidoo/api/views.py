@@ -10,7 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect, request
 # Create your views here.
-from .models import Parqueadero, Cliente, Vehiculo, Reserva, Usuario
+from .models import Parqueadero, Cliente, Oferente, Vehiculo, Reserva, Usuario, Direccion
 
 
 def index(request):
@@ -103,3 +103,43 @@ def reservar_parqueadero(request, parqueadero_id):
 @csrf_exempt
 def list_parqueaderos(request):
     return HttpResponse(serializers.serialize("json", Parqueadero.objects.all()))
+
+
+@csrf_exempt
+def list_parqueaderos_disponibles(request):
+    disponibles = Parqueadero.objects.filter(reserva=None)
+    return HttpResponse(serializers.serialize("json",disponibles))
+
+
+@csrf_exempt
+def list_reservas(request):
+    return HttpResponse(serializers.serialize("json", Reserva.objects.all()))
+
+
+@csrf_exempt
+def add_parqueadero(request):
+    if request.method == 'POST':
+        new_parqueadero = json.loads(request.body)
+        print(new_parqueadero)
+        usuario_temp = Usuario.objects.get(pk=new_parqueadero['oferente'])
+        ofe = Oferente.objects.get(usuario=usuario_temp)
+        dir = Direccion.objects.get(pk=new_parqueadero['direccion'])
+        parqueadero_model = Parqueadero(oferente=ofe,
+                                        direccion=dir,
+                                        tipoVehiculo=new_parqueadero['tipoVehiculo'],
+                                        tipoDisponibilidad=new_parqueadero['tipoDisponibilidad'],
+                                        caracteristicas=new_parqueadero['caracteristicas'],
+                                        longitud=new_parqueadero['longitud'],
+                                        latitud=new_parqueadero['latitud'])
+
+        parqueadero_model.save()
+        return JsonResponse({"parqueadero": parqueadero_model.pk,
+                             "oferente": new_parqueadero['oferente'],
+                             "direccion": new_parqueadero['direccion'],
+                             "tipoVehiculo": parqueadero_model.tipoVehiculo,
+                             "tipoDisponibilidad": parqueadero_model.tipoDisponibilidad,
+                             "caracteristicas": new_parqueadero['caracteristicas'],
+                             "longitud": new_parqueadero['longitud'],
+                             "latitud": new_parqueadero['latitud']})
+    else:
+        return JsonResponse({"parqueadero": ''})
