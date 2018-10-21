@@ -80,7 +80,6 @@ def reservar_parqueadero(request, parqueadero_id):
             new_reserva = json.loads(request.body)
             usuario_temp = Usuario.objects.get(pk=new_reserva['cliente'])
             cli = Cliente.objects.get(usuario=usuario_temp)
-
             fecha = datetime.now()  # new_reserva['fecha']
             veh = Vehiculo.objects.get(vehiculoId=new_reserva['vehiculo'])
             reserva_model = Reserva(Cliente=cli,
@@ -126,7 +125,6 @@ def list_reservas(request):
 def add_parqueadero(request):
     if request.method == 'POST':
         new_parqueadero = json.loads(request.body)
-        print(new_parqueadero)
         usuario_temp = Usuario.objects.get(pk=new_parqueadero['oferente'])
         ofe = Oferente.objects.get(usuario=usuario_temp)
         dir = Direccion.objects.get(pk=new_parqueadero['direccion'])
