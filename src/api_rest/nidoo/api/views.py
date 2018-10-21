@@ -107,8 +107,14 @@ def list_parqueaderos(request):
 
 @csrf_exempt
 def list_parqueaderos_disponibles(request):
-    disponibles = Parqueadero.objects.filter(reserva=None)
-    return HttpResponse(serializers.serialize("json",disponibles))
+    disponibles = Parqueadero.objects.filter(reserva=None)[:100]
+    return HttpResponse(serializers.serialize("json", disponibles))
+
+
+@csrf_exempt
+def list_parqueaderos_disponibles_pagina(request, pagina_id):
+    disponibles = Parqueadero.objects.filter(reserva=None)[(100*int(pagina_id)-100):(100*int(pagina_id)-1)]
+    return HttpResponse(serializers.serialize("json", disponibles))
 
 
 @csrf_exempt
