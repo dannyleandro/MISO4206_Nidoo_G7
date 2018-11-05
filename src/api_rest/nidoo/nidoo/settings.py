@@ -78,7 +78,15 @@ WSGI_APPLICATION = 'nidoo.wsgi.application'
 
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'ENGINE': 'django_postgrespool',
+#         'NAME': 'Nidoo',
+#         'USER': 'postgres',
+#         'PASSWORD': 'admin',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     },
+#     'read_replica': {
+#         'ENGINE': 'django_postgrespool',
 #         'NAME': 'Nidoo',
 #         'USER': 'postgres',
 #         'PASSWORD': 'admin',
@@ -95,8 +103,18 @@ DATABASES = {
         'PASSWORD': os.environ['PASSDB'],
         'HOST': os.environ['HOSTDB'],
         'PORT': os.environ['PORTDB'],
+    },
+    'read_replica': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.environ['NAMEDB'],
+        'USER': os.environ['USERDB'],
+        'PASSWORD': os.environ['PASSDB'],
+        'HOST': os.environ['REPHOSTDB'],
+        'PORT': os.environ['PORTDB'],
     }
 }
+
+DATABASE_ROUTERS = ['nidoo.routers.PrimaryReplicaRouter']
 
 AUTH_USER_MODEL = 'api.Usuario'
 # Password validation
